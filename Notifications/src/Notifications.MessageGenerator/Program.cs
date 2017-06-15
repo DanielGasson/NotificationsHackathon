@@ -11,7 +11,8 @@ namespace Notifications.MessageGenerator
 
         static void Main(string[] args)
         {
-
+            Console.WriteLine("Press Enter");
+            Console.ReadLine();
             var countMs = 0;
             while (countMs < 3)
             {
@@ -20,13 +21,13 @@ namespace Notifications.MessageGenerator
                 countMs++;
             }
 
-            var countPlus3 = 0;
-            while (countPlus3 < 2)
-            {
-                var randomIndex = RandomListGenerator.Next(CustomerDataBaseStub.Count);
-                GeneratePaymentDueIn3DaysMessage(CustomerDataBaseStub[randomIndex]);
-                countPlus3++;
-            }
+            //var countPlus3 = 0;
+            //while (countPlus3 < 2)
+            //{
+            //    var randomIndex = RandomListGenerator.Next(CustomerDataBaseStub.Count);
+            //    GeneratePaymentDueIn3DaysMessage(CustomerDataBaseStub[randomIndex]);
+            //    countPlus3++;
+            //}
 
         }
 
@@ -67,28 +68,28 @@ namespace Notifications.MessageGenerator
                         },
                         new CustomerRecord
                         {
-                            Id = 1,
+                            Id = 2,
                             FirstName = "Daniel",
                             LastName = "Gasson",
                             PhoneNumber = "07949863879"
                         },
                         new CustomerRecord
                         {
-                            Id = 1,
+                            Id = 3,
                             FirstName = "Jamie",
                             LastName = "Howard",
                             PhoneNumber = "07507484850"
                         },
                         new CustomerRecord
                         {
-                            Id = 1,
+                            Id = 4,
                             FirstName = "Morgan",
                             LastName = "Faget",
                             PhoneNumber = "07949863879"
                         },
                         new CustomerRecord
                         {
-                            Id = 1,
+                            Id = 5,
                             FirstName = "Katerina",
                             LastName = "Gerykova",
                             PhoneNumber = "07507484850"
