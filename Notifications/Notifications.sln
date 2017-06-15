@@ -7,6 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.Web", "src\No
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.PdfProcessor", "src\Notifications.PdfProcessor\Notifications.PdfProcessor.csproj", "{558DDC10-4C32-4455-BCE3-CA548A7E57EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.MessageGenerator", "src\Notifications.MessageGenerator\Notifications.MessageGenerator.csproj", "{81A5D8EE-4B32-4289-98C1-F271283AF34A}"
+EndProject
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +24,10 @@ Global
 		{558DDC10-4C32-4455-BCE3-CA548A7E57EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{558DDC10-4C32-4455-BCE3-CA548A7E57EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{558DDC10-4C32-4455-BCE3-CA548A7E57EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81A5D8EE-4B32-4289-98C1-F271283AF34A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81A5D8EE-4B32-4289-98C1-F271283AF34A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81A5D8EE-4B32-4289-98C1-F271283AF34A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81A5D8EE-4B32-4289-98C1-F271283AF34A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
