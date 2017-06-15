@@ -1,11 +1,13 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Configuration;
 using System.Net;
 using Microsoft.Azure;
 using Microsoft.ServiceBus.Messaging;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
-
 namespace Notifications.EmailProcessor
 {
 	class Program
