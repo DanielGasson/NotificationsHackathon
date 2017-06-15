@@ -14,33 +14,41 @@ namespace Notifications.PdfProcessor
 
 		static void Main(string[] args)
 		{
-			var message = RetrieveMessage();
-			GeneratePdf(message);
-		}
-
-		private static string RetrieveMessage()
-		{
 			var result = string.Empty;
-
 			try
 			{
+				// this is gross....
 				var connectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 				var pdfQueueName = "pdfqueue";
 				var client = QueueClient.CreateFromConnectionString(connectionString, pdfQueueName);
 
 				var message = client.Receive();
 				result = message.GetBody<string>();
-				message.Complete();
+
+				var success = GeneratePdf(message.GetBody<string>());
+				if (success)
+				{
+					message.Complete();
+					var emailGenerationQueued = QueueEmailGeneration();
+				}
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
 			}
-
-			return result;
 		}
 
-		private static void GeneratePdf(string message)
+		private static bool QueueEmailGeneration()
+		{
+			var connectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
+			var pdfQueueName = "emailgeneratorqueue";
+			var client = QueueClient.CreateFromConnectionString(connectionString, pdfQueueName);
+			var message = new BrokeredMessage("This is an email");
+			client.Send(message);
+			return true;
+		}
+
+		private static bool GeneratePdf(string message)
 		{
 			try
 			{
@@ -54,13 +62,13 @@ namespace Notifications.PdfProcessor
 				PdfDocument signUpEmailDocument = converter.ConvertHtmlString(htmlToConvert);
 				signUpEmailDocument.Save(PdfSavePath);
 				signUpEmailDocument.Close();
+				return true;
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
+				return false;
 			}
-
-			Console.ReadKey();
 		}
 	}
 }
