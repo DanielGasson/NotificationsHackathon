@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.PdfProcessor"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.MessageGenerator", "src\Notifications.MessageGenerator\Notifications.MessageGenerator.csproj", "{81A5D8EE-4B32-4289-98C1-F271283AF34A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.EmailProcessor", "Notifications.EmailProcessor\Notifications.EmailProcessor.csproj", "{02B7E723-CE6F-401D-A30B-B0E863340A66}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.EmailProcessor", "src\Notifications.EmailProcessor\Notifications.EmailProcessor.csproj", "{02B7E723-CE6F-401D-A30B-B0E863340A66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
