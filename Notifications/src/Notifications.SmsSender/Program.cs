@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Configuration;
+using System.Linq;
+using Microsoft.ServiceBus.Messaging;
 using RestSharp;
 
 namespace Notifications.SmsSender
@@ -8,7 +10,26 @@ namespace Notifications.SmsSender
 	{
 		static void Main(string[] args)
 		{
-			SendSms("", "This is a trial run");
+			var connectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
+			var pdfQueueName = "smssenderqueue";
+			var client = QueueClient.CreateFromConnectionString(connectionString, pdfQueueName);
+
+			var messageOptions = new OnMessageOptions
+			{
+				AutoComplete = true,
+				MaxConcurrentCalls = 2
+			};
+			messageOptions.ExceptionReceived += (sender, eventArgs) =>
+			{
+				Console.WriteLine($"SMS Queue Error :{eventArgs.Exception.Message}");
+			};
+
+			client.OnMessage(message =>
+			{
+				var customerId = message.Properties["customerId"];
+				var phoneNumber = CustomerDb.Customers.First(c => c.Id == (int) customerId);
+				SendSms(phoneNumber.ToString(), "You have a new secure message. Log into your account to view it.");
+			}, messageOptions);
 		}
 
 		private static void SendSms(string number, string content)
