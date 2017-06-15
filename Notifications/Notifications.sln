@@ -9,7 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.PdfProcessor"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.MessageGenerator", "src\Notifications.MessageGenerator\Notifications.MessageGenerator.csproj", "{81A5D8EE-4B32-4289-98C1-F271283AF34A}"
 EndProject
-
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.EmailProcessor", "Notifications.EmailProcessor\Notifications.EmailProcessor.csproj", "{02B7E723-CE6F-401D-A30B-B0E863340A66}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +29,10 @@ Global
 		{81A5D8EE-4B32-4289-98C1-F271283AF34A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81A5D8EE-4B32-4289-98C1-F271283AF34A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81A5D8EE-4B32-4289-98C1-F271283AF34A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02B7E723-CE6F-401D-A30B-B0E863340A66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02B7E723-CE6F-401D-A30B-B0E863340A66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02B7E723-CE6F-401D-A30B-B0E863340A66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02B7E723-CE6F-401D-A30B-B0E863340A66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
