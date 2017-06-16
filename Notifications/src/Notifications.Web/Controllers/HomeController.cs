@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace Notifications.Web.Controllers
 {
-	public class HomeController : Controller
+
+	public class HomeController : BaseController
 	{
 		public ActionResult Index()
 		{
@@ -15,9 +12,16 @@ namespace Notifications.Web.Controllers
 
 		public ActionResult About()
 		{
-			ViewBag.Message = "Your application description page.";
+		    if (User.Identity.IsAuthenticated)
+		    {
+		        ViewBag.Message = "Your authenticated." + GetUserId();
+		    }
+		    else
+		    {
+		        ViewBag.Message = "You're not authenticated";
 
-			return View();
+		    }
+		    return View();
 		}
 
 		public ActionResult Contact()
@@ -26,5 +30,10 @@ namespace Notifications.Web.Controllers
 
 			return View();
 		}
+
+	    public ActionResult Error()
+	    {
+	        return View("Error");
+	    }
 	}
 }

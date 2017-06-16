@@ -20,7 +20,18 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-					<li>@Html.ActionLink("Inbox", "Index", "Notifications")</li>
+                    <li>@Html.ActionLink("Inbox", "Index", "Notifications")</li>
+                </ul>
+                <ul class="nav navbar-nav">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="pull-right">
+                        @using (Html.BeginForm("signout", "account"))
+                        {
+                            <input class="btn" type="submit" value="Sign Out"/>
+                        }
+                    </div>
+              }
                 </ul>
             </div>
         </div>
