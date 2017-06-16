@@ -18,13 +18,13 @@ namespace Notifications.InboxMessageWorker
 		{
 			try
 			{
-				//// storage client setup
-				//var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
-				//var storageClient = storageAccount.CreateCloudTableClient();
-				//CreateTableIfExists(storageClient, TableName);
+                //// storage client setup
+                var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                var storageClient = storageAccount.CreateCloudTableClient();
+                CreateTableIfExists(storageClient, TableName);
 
-				// queue client setup
-				var queueConnectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
+                // queue client setup
+                var queueConnectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 				var queueName = "emailgeneratorqueue";
 				var queueClient = QueueClient.CreateFromConnectionString(queueConnectionString, queueName);
 

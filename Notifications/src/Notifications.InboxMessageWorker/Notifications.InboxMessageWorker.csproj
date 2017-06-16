@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{02B7E723-CE6F-401D-A30B-B0E863340A66}</ProjectGuid>
+    <ProjectGuid>{2B94112C-8FA8-46FF-ACF2-0B35838AF505}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Notifications.InboxMessageWorker</RootNamespace>
