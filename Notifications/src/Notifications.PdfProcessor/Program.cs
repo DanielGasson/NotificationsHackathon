@@ -71,7 +71,7 @@ namespace Notifications.PdfProcessor
 	    public static string SaveDocumentRecord(CustomerRecord customer, string documentType, string fileName)
 	    {
 	        CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
-	            ConfigurationManager.AppSettings["Microsoft.Storage.ConnectionString"]);
+	            ConfigurationManager.AppSettings["StorageConnectionString"]);
 
 	        CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
 
@@ -132,7 +132,7 @@ namespace Notifications.PdfProcessor
 
 	        var fileName = $"{year}{month}-{customerId}-{fileType}.pdf";
 
-            var connectionString = ConfigurationManager.AppSettings["Microsoft.Storage.ConnectionString"];
+            var connectionString = ConfigurationManager.AppSettings["StorageConnectionString"];
 	        CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
 	        CloudFileClient fileClient = account.CreateCloudFileClient();
 	        CloudFileShare pdfLocation = fileClient.GetShareReference("pdfstorage");

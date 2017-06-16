@@ -33,9 +33,9 @@ namespace Notifications.DayPlus3Processor
                 }
                 
                 QueueMsgForEmail(customer.Id, customer.FirstName, customer.LastName);
+            }, messageOptions);
 
-
-            });
+            Console.ReadLine();
         }
 
         private static void QueueMsgForEmail(int customerId, object firstName, object lastName)
