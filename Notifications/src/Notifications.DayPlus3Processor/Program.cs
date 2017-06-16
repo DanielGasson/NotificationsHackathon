@@ -9,7 +9,7 @@ namespace Notifications.DayPlus3Processor
         static void Main(string[] args)
         {
             var connectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
-            var pdfQueueName = "pdfqueue";
+            var pdfQueueName = "dayplus3queue";
             var client = QueueClient.CreateFromConnectionString(connectionString, pdfQueueName);
 
             var messageOptions = new OnMessageOptions
