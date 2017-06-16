@@ -97,7 +97,11 @@ namespace Notifications.PdfProcessor
 		        var connectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 		        var pdfQueueName = "emailgeneratorqueue";
 		        var client = QueueClient.CreateFromConnectionString(connectionString, pdfQueueName);
-		        var message = new BrokeredMessage("This is an email");
+		        var message = new BrokeredMessage("MonthlyStatement");
+		        message.Properties["FirstName"] = customer.FirstName;
+		        message.Properties["LastName"] = customer.LastName;
+		        message.Properties["CustomerId"] = customer.Id;
+		        message.Properties["UniqueKey"] = uniqueKey;
 		        client.Send(message);
 		    }
 		    catch (Exception ex)
