@@ -11,7 +11,8 @@ namespace Notifications.SmsWorker
 	{
 		static void Main(string[] args)
 		{
-			var connectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
+		    Console.WriteLine("Started Sms Worker");
+            var connectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 			var pdfQueueName = "smssenderqueue";
 			var client = QueueClient.CreateFromConnectionString(connectionString, pdfQueueName);
 
@@ -28,9 +29,12 @@ namespace Notifications.SmsWorker
 			client.OnMessage(message =>
 			{
 				var customerId = message.Properties["customerId"];
-				var phoneNumber = CustomerDb.Customers.First(c => c.Id == (int) customerId).PhoneNumber;
-				SendSms(phoneNumber.ToString(), "You have a new secure message. Log into your account to view it.");
-			}, messageOptions);
+				var customerRecord = CustomerDb.Customers.First(c => c.Id == (int) customerId);
+				SendSms(customerRecord.PhoneNumber, "You have a new secure message. Log into your account to view it.");
+			    Console.WriteLine("Sent text to Customer {0} - {1}", customerId, customerRecord.FirstName);
+
+            }, messageOptions);
+		    Console.ReadLine();
 		}
 
 		private static void SendSms(string number, string content)

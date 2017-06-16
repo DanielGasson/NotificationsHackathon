@@ -20,6 +20,8 @@ namespace Notifications.PdfProcessor
 
 		static void Main(string[] args)
 		{
+            Console.WriteLine("Just Started PDF Processor");
+
             try
 			{
 				var connectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
@@ -56,7 +58,7 @@ namespace Notifications.PdfProcessor
                         {
                             throw new Exception("Could not queue email");
                         }
-                        Console.WriteLine("Just processed Customer {0}", customer.Id);
+                        Console.WriteLine("Just processed PDF for Customer {0}", customer.Id);
                     }
                 }, messageOptions);
 

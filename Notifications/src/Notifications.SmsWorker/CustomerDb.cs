@@ -23,8 +23,8 @@ namespace Notifications.SmsWorker
 							Id = 2,
 							FirstName = "Daniel",
 							LastName = "Gasson",
-							PhoneNumber = "00447949863879"
-						},
+							PhoneNumber = "00447507484850"
+                        },
 						new CustomerRecord
 						{
 							Id = 3,
@@ -37,8 +37,8 @@ namespace Notifications.SmsWorker
 							Id = 4,
 							FirstName = "Morgan",
 							LastName = "Faget",
-							PhoneNumber = "00447949863879"
-						},
+							PhoneNumber = "00447507484850"
+                        },
 						new CustomerRecord
 						{
 							Id = 5,

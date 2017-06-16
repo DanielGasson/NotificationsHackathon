@@ -18,6 +18,10 @@ namespace Notifications.Web.Controllers
 		public ActionResult Index()
 		{
 			var messages = GetAllMessagesForCustomer(GetUserId());
+		    if (messages.Any())
+		    {
+		        messages = messages.OrderByDescending(x => x.Date);
+		    }
 			var model = new InboxViewModel { Messages = messages };
 			return View(model);
 		}

@@ -15,7 +15,9 @@ namespace Notifications.InboxMessageWorker
 		{
 			try
 			{
+                Console.WriteLine("Starting Inbox worker");
                 //// storage client setup
+                
                 var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
                 var storageClient = storageAccount.CreateCloudTableClient();
                 CreateTableIfExists(storageClient, TableName);
@@ -108,6 +110,7 @@ namespace Notifications.InboxMessageWorker
 	        {
 	            QueueMsgForTextMessage(customerId, firstName, lastName);
 	        }
+	        Console.WriteLine("Processed DD Email for {0}", customerId);
         }
 
 	    private static string GenerateHtmlForMonthlyStatement(string firstName, string url)
@@ -136,6 +139,7 @@ namespace Notifications.InboxMessageWorker
 	        {
 	            QueueMsgForTextMessage(customerId, firstName, lastName);
 	        }
+            Console.WriteLine("Processed Monthly Statement for {0}", customerId);
         }
     }
 }

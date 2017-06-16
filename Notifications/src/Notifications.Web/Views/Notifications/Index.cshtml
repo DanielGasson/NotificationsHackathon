@@ -23,8 +23,8 @@
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>Date</th>
-					<th>Subject</th>
+				    <th>Subject</th>
+				    <th>Date</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -32,8 +32,9 @@
 				@foreach (var message in Model.Messages)
 				{
 					<tr>
-						<td id="@message.RowKey">@message.Date.ToString("MMMM dd, yyyy")</td>
-						<td id="@message.RowKey">@message.Title</td>
+					    <td id="@message.RowKey">@message.Title</td>
+					    <td id="@message.RowKey">@string.Format("{0:r}", message.Date.ToString())</td>
+
 					</tr>
 				}
 			</tbody>
