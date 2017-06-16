@@ -11,8 +11,6 @@ namespace Notifications.InboxMessageWorker
 	class Program
 	{
 		private const string TableName = "CustomerEmails";
-		private const string MessageTitle = "Monthly Statement";
-		private const string MessageContent = "Hi, your monthly statement is ready.";
 
 		static void Main(string[] args)
 		{
@@ -42,6 +40,7 @@ namespace Notifications.InboxMessageWorker
 				    {
 				        case "MonthlyStatement":
 				        {
+                            ProcessMonthlyStatementEmail(message, storageClient);
 				            break;
 				        }
 				        case "DayMinus3DD":
@@ -51,22 +50,7 @@ namespace Notifications.InboxMessageWorker
 
                     }
 
-					var customerId = message.Properties["customerId"];
-					var firstName = message.Properties["firstName"];
-					var lastName = message.Properties["lastName"];
 
-					var customerEmail = new CustomerEmail
-					(
-						customerId: (int) customerId,
-						title: MessageTitle,
-						content: MessageContent
-					);
-
-					var success = AddEntityToStorage(storageClient, customerEmail, TableName);
-					if (success)
-					{
-						QueueMsg(customerId, firstName, lastName);
-					}
 				}, options);
 			}
 			catch (Exception ex)
@@ -77,7 +61,7 @@ namespace Notifications.InboxMessageWorker
 
 		private static bool CreateTableIfExists(CloudTableClient client, string tableName)
 		{
-			var table = client.GetTableReference(TableName);
+			var table = client.GetTableReference(tableName);
 			return table.CreateIfNotExists();
 		}
 
@@ -88,7 +72,7 @@ namespace Notifications.InboxMessageWorker
 			return result.HttpStatusCode == (int) HttpStatusCode.NoContent;
 		}
 
-		private static void QueueMsg(object customerId, object firstName, object lastName)
+		private static void QueueMsgForTextMessage(object customerId, object firstName, object lastName)
 		{
 			var connectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 			var pdfQueueName = "smssenderqueue";
@@ -107,5 +91,34 @@ namespace Notifications.InboxMessageWorker
 	        return
 	            $"<table> <tbody> <tr> <td>&nbsp;</td> </tr> <tr> <td>&nbsp;</td> </tr> <tr> <td> <div>DEAR {firstName}</div> <div>&nbsp;</div> <div>Just a reminder that your Direct Debit payment is due to be taken in 3 days</div> <div>&nbsp;</div> <div>Regards</div> <div>&nbsp;</div> <div>Capital On Tap Team</div> </td> </tr> <tr> <td>&nbsp;</td> </tr> </tbody> </table>";
 	    }
+
+
+	    private static string GenerateHtmlForMonthlyStatement(string firstName, string url)
+	    {
+	        return $"<table> <tbody> <tr> <td>&nbsp;</td> </tr> <tr> <td>&nbsp;</td> </tr> <tr> <td> <div>DEAR {firstName}</div> <div>&nbsp;</div> <div>Your Capital On Tap Monthly statement is ready.&nbsp;</div> <div>Download it&nbsp;<a title=\"downloadms\" href=\"{url}\">here</a></div> <div>&nbsp;</div> <div>Regards</div> <div>&nbsp;</div> <div>Capital On Tap Team</div> </td> </tr> <tr> <td>&nbsp;</td> </tr> </tbody> </table>";
+	    }
+
+	    private static void ProcessMonthlyStatementEmail(BrokeredMessage message, CloudTableClient storageClient)
+	    {
+	        var firstName = message.Properties["FirstName"];
+	        var lastName = message.Properties["LastName"];
+	        var customerId = message.Properties["CustomerId"];
+	        var uniqueKey = message.Properties["UniqueKey"];
+
+            
+
+            var customerEmail = new CustomerEmail
+	        (
+	            customerId: (int)customerId,
+	            title: "Your Monthly Statement is ready",
+	            content: GenerateHtmlForMonthlyStatement(firstName, )
+	        );
+
+	        var success = AddEntityToStorage(storageClient, customerEmail, TableName);
+	        if (success)
+	        {
+	            QueueMsgForTextMessage(customerId, firstName, lastName);
+	        }
+        }
     }
 }
