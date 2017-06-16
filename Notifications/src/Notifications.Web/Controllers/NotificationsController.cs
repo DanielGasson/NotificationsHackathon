@@ -14,15 +14,6 @@ namespace Notifications.Web.Controllers
 	{
 		private const string TableName = "CustomerEmails";
 
-		// mimic db result until I hook up azure storage
-		private readonly List<CustomerMessageViewModel> _messages = new List<CustomerMessageViewModel>
-		{
-			new CustomerMessageViewModel { Title = "Test 1", Body = "Body for test 1", RowKey = new Guid("BE61B744-BB8E-440B-8EDB-872045E136FA") },
-			new CustomerMessageViewModel { Title = "Test 2", Body = "Body for test 2", RowKey = new Guid("AD39361E-0532-42D2-B0CA-0ED17DBAAA09") },
-			new CustomerMessageViewModel { Title = "Test 3", Body = "Body for test 3", RowKey = new Guid("60404F64-9E81-4604-933C-6471A5E5A2D5") },
-			new CustomerMessageViewModel { Title = "Test 4", Body = "Body for test 4", RowKey = new Guid("51EDE11D-C373-48EF-A686-64B06E30F79B") }
-		};
-
 		[HttpGet]
 		public ActionResult Index()
 		{
@@ -37,7 +28,6 @@ namespace Notifications.Web.Controllers
 		{
 			var rowKey = Guid.Parse(id);
 			var message = GetMessage(rowKey);
-			//var message =_messages.First(m => m.RowKey == rowKey);
 			return PartialView("_Message", message);
 		}
 
@@ -50,9 +40,8 @@ namespace Notifications.Web.Controllers
 
 				var query = new TableQuery<CustomerEmail>().Where(
 					TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, customerId.ToString())
-					);
+				);
 
-				
 				var messages = table.ExecuteQuery(query);
 				foreach (var message in messages)
 				{
@@ -64,7 +53,8 @@ namespace Notifications.Web.Controllers
 						CustomerId = message.CustomerId,
 						RowKey = rowKey,
 						Title = message.Title,
-						Body = message.Content
+						Body = message.Content,
+						Date = message.CreatedDate
 					});
 				}
 			}
@@ -94,7 +84,8 @@ namespace Notifications.Web.Controllers
 					CustomerId = messages.First().CustomerId,
 					RowKey = rowKey,
 					Title = messages.First().Title,
-					Body = messages.First().Content
+					Body = messages.First().Content,
+					Date = messages.First().CreatedDate
 				};
 				
 			}

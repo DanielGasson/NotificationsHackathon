@@ -8,5 +8,6 @@ namespace Notifications.Web.ViewModels
 		public Guid RowKey { get; set; }
 		public string Title { get; set; }
 		public string Body { get; set; }
+		public DateTime Date { get; set; }
 	}
 }
