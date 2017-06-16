@@ -11,20 +11,18 @@ namespace Notifications.InboxMessageWorker
 	class Program
 	{
 		private const string TableName = "CustomerEmails";
-		private const string MessageTitle = "Monthly Statement";
-		private const string MessageContent = "Hi, your monthly statement is ready.";
 
 		static void Main(string[] args)
 		{
 			try
 			{
-				// storage client setup
-				var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
-				var storageClient = storageAccount.CreateCloudTableClient();
-				CreateTableIfExists(storageClient, TableName);
+                //// storage client setup
+                var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                var storageClient = storageAccount.CreateCloudTableClient();
+                CreateTableIfExists(storageClient, TableName);
 
-				// queue client setup
-				var queueConnectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
+                // queue client setup
+                var queueConnectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 				var queueName = "emailgeneratorqueue";
 				var queueClient = QueueClient.CreateFromConnectionString(queueConnectionString, queueName);
 
@@ -36,34 +34,35 @@ namespace Notifications.InboxMessageWorker
 
 				queueClient.OnMessage(message =>
 				{
-					var customerId = message.Properties["customerId"];
-					var firstName = message.Properties["firstName"];
-					var lastName = message.Properties["lastName"];
 
-					var customerEmail = new CustomerEmail
-					(
-						customerId: (int) customerId,
-						title: MessageTitle,
-						content: MessageContent
-					);
+				    var emailType = message.GetBody<string>().Trim();
+				    switch (emailType)
+				    {
+				        case "MonthlyStatement":
+				        {
+                            ProcessMonthlyStatementEmail(message, storageClient);
+				            break;
+				        }
+				        case "DayMinus3DD":
+				        {
+                            ProcessDayMinus3DD(message, storageClient);
+				            break;
+				        }
 
-					var success = AddEntityToStorage(storageClient, customerEmail, TableName);
-					if (success)
-					{
-						QueueMsg(customerId, firstName, lastName);
-					}
+                    }
 				}, options);
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
 			}
+		    Console.ReadLine();
 		}
 
-		private static bool CreateTableIfExists(CloudTableClient client, string tableName)
+		private static void CreateTableIfExists(CloudTableClient client, string tableName)
 		{
-			var table = client.GetTableReference(TableName);
-			return table.CreateIfNotExists();
+			var table = client.GetTableReference(tableName);
+			table.CreateIfNotExists();
 		}
 
 		private static bool AddEntityToStorage(CloudTableClient client, ITableEntity entity, string tableName)
@@ -73,18 +72,71 @@ namespace Notifications.InboxMessageWorker
 			return result.HttpStatusCode == (int) HttpStatusCode.NoContent;
 		}
 
-		private static void QueueMsg(object customerId, object firstName, object lastName)
+		private static void QueueMsgForTextMessage(object customerId, object firstName, object lastName)
 		{
 			var connectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 			var pdfQueueName = "smssenderqueue";
 			var client = QueueClient.CreateFromConnectionString(connectionString, pdfQueueName);
 
 			var message = new BrokeredMessage();
-			message.Properties.Add("customerId", customerId);
-			message.Properties.Add("firstName", firstName);
-			message.Properties.Add("lastName", lastName);
+			message.Properties.Add("CustomerId", customerId);
+			message.Properties.Add("FirstName", firstName);
+			message.Properties.Add("LastName", lastName);
 
 			client.Send(message);
 		}
-	}
+
+	    private static string GenerateHtmlForDayMinus3(string firstName)
+	    {
+	        return
+	            $"<table> <tbody> <tr> <td>&nbsp;</td> </tr> <tr> <td>&nbsp;</td> </tr> <tr> <td> <div>DEAR {firstName}</div> <div>&nbsp;</div> <div>Just a reminder that your Direct Debit payment is due to be taken in 3 days</div> <div>&nbsp;</div> <div>Regards</div> <div>&nbsp;</div> <div>Capital On Tap Team</div> </td> </tr> <tr> <td>&nbsp;</td> </tr> </tbody> </table>";
+	    }
+
+	    private static void ProcessDayMinus3DD(BrokeredMessage message, CloudTableClient storageClient)
+	    {
+	        var firstName = message.Properties["FirstName"].ToString();
+	        var lastName = message.Properties["LastName"].ToString();
+	        var customerId = Convert.ToInt32(message.Properties["CustomerId"].ToString());
+	        var customerEmail = new CustomerEmail
+	        (
+	            customerId: (int)customerId,
+	            title: "Your Direct Debit Payment",
+	            content: GenerateHtmlForDayMinus3(firstName)
+	        );
+
+	        var success = AddEntityToStorage(storageClient, customerEmail, TableName);
+	        if (success)
+	        {
+	            QueueMsgForTextMessage(customerId, firstName, lastName);
+	        }
+        }
+
+	    private static string GenerateHtmlForMonthlyStatement(string firstName, string url)
+	    {
+	        return $"<table> <tbody> <tr> <td>&nbsp;</td> </tr> <tr> <td>&nbsp;</td> </tr> <tr> <td> <div>DEAR {firstName}</div> <div>&nbsp;</div> <div>Your Capital On Tap Monthly statement is ready.&nbsp;</div> <div>Download it&nbsp;<a title=\"downloadms\" href=\"{url}\">here</a></div> <div>&nbsp;</div> <div>Regards</div> <div>&nbsp;</div> <div>Capital On Tap Team</div> </td> </tr> <tr> <td>&nbsp;</td> </tr> </tbody> </table>";
+	    }
+
+	    private static void ProcessMonthlyStatementEmail(BrokeredMessage message, CloudTableClient storageClient)
+	    {
+	        var firstName = message.Properties["FirstName"].ToString();
+	        var lastName = message.Properties["LastName"].ToString();
+	        var customerId = Convert.ToInt32(message.Properties["CustomerId"].ToString());
+	        var uniqueKey = message.Properties["UniqueKey"].ToString();
+
+	        var url = $"http://localhost:80/Customer/Download/{uniqueKey}";
+
+            var customerEmail = new CustomerEmail
+	        (
+	            customerId: (int)customerId,
+	            title: "Your Monthly Statement is ready",
+	            content: GenerateHtmlForMonthlyStatement(firstName, url)
+	        );
+
+	        var success = AddEntityToStorage(storageClient, customerEmail, TableName);
+	        if (success)
+	        {
+	            QueueMsgForTextMessage(customerId, firstName, lastName);
+	        }
+        }
+    }
 }
