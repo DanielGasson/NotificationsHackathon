@@ -15,8 +15,7 @@ namespace Notifications.PdfProcessor
 {
 	class Program
 	{
-		private const string PdfEnginePath =
-            @"C:\Hackathon\Notifications\src\Notifications.PdfProcessor\lib\Select.Html.dep";
+		private const string PdfEnginePath = @"C:\Hackathon\Notifications\src\Notifications.PdfProcessor\lib\Select.Html.dep";
 
 		static void Main(string[] args)
 		{
@@ -43,9 +42,9 @@ namespace Notifications.PdfProcessor
                     {
                         throw new Exception("Customer is null");
                     }
-                    var htmlContent = GenerateHtml(customer.FirstName, customer.LastName);
+                    var htmlContent = GenerateHtmlForPdf(customer.FirstName, customer.LastName);
 
-                    var pdfStream = GeneratePdf(htmlContent);
+                    var pdfStream = GeneratePdfStream(htmlContent);
                     if (pdfStream.Length > 0)
                     {
                         var fileName = SavePdfToFileStorage(pdfStream, customer.Id, "MonthlyStatement");
@@ -112,7 +111,7 @@ namespace Notifications.PdfProcessor
 		    return true;
 		}
 
-	    private static MemoryStream GeneratePdf(string content)
+	    private static MemoryStream GeneratePdfStream(string content)
 	    {
 	        var stream = new MemoryStream();
 	        // Either manually copy the dep (generator) file into your build folder or specify it this way.
@@ -203,7 +202,7 @@ namespace Notifications.PdfProcessor
 	        public string PhoneNumber { get; set; }
 	    }
 
-	    public static string GenerateHtml(string firstname, string lastname)
+	    public static string GenerateHtmlForPdf(string firstname, string lastname)
 	    {
 	        return
 	            $"<table> <tbody> <tr> <td>&nbsp;</td> </tr> <tr> <td>&nbsp;</td> </tr> <tr> <td> <div style=\"0color: #000000; font-size: 14px; text-align: left; font-family: Tahoma;\"><span style=\"color: #ff0000;\">DEAR {firstname} {lastname} - THIS IS YOUR VERY DETAILED MONTHLY STATEMENT</span></div> <div style=\"0color: #000000; font-size: 14px; text-align: left; font-family: Tahoma;\">&nbsp;</div> <div style=\"0color: #000000; font-size: 14px; text-align: left; font-family: Tahoma;\">SUMMARY</div> <div style=\"0color: #000000; font-size: 14px; text-align: left; font-family: Tahoma;\">&nbsp;</div> <div style=\"0color: #000000; font-size: 14px; text-align: left; font-family: Tahoma;\">YOU\'RE BROKE!!!</div> </td> </tr> <tr> <td>&nbsp;</td> </tr> </tbody> </table>";

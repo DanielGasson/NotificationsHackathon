@@ -17,10 +17,10 @@ namespace Notifications.EmailProcessor
 		{
 			try
 			{
-				// storage client setup
-				var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
-				var storageClient = storageAccount.CreateCloudTableClient();
-				CreateTableIfExists(storageClient, TableName);
+				//// storage client setup
+				//var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+				//var storageClient = storageAccount.CreateCloudTableClient();
+				//CreateTableIfExists(storageClient, TableName);
 
 				// queue client setup
 				var queueConnectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
@@ -35,6 +35,21 @@ namespace Notifications.EmailProcessor
 
 				queueClient.OnMessage(message =>
 				{
+
+				    var emailType = message.GetBody<string>();
+				    switch (emailType)
+				    {
+				        case "MonthlyStatement":
+				        {
+				            break;
+				        }
+				        case "DayMinus3DD":
+				        {
+				            break;
+				        }
+
+                    }
+
 					var customerId = message.Properties["customerId"];
 					var firstName = message.Properties["firstName"];
 					var lastName = message.Properties["lastName"];
@@ -78,11 +93,17 @@ namespace Notifications.EmailProcessor
 			var client = QueueClient.CreateFromConnectionString(connectionString, pdfQueueName);
 
 			var message = new BrokeredMessage();
-			message.Properties.Add("customerId", customerId);
-			message.Properties.Add("firstName", firstName);
-			message.Properties.Add("lastName", lastName);
+			message.Properties.Add("CustomerId", customerId);
+			message.Properties.Add("FirstName", firstName);
+			message.Properties.Add("LastName", lastName);
 
 			client.Send(message);
 		}
-	}
+
+	    private static string GenerateHtmlForDayMinus3(string firstName)
+	    {
+	        return
+	            $"<table> <tbody> <tr> <td>&nbsp;</td> </tr> <tr> <td>&nbsp;</td> </tr> <tr> <td> <div>DEAR {firstName}</div> <div>&nbsp;</div> <div>Just a reminder that your Direct Debit payment is due to be taken in 3 days</div> <div>&nbsp;</div> <div>Regards</div> <div>&nbsp;</div> <div>Capital On Tap Team</div> </td> </tr> <tr> <td>&nbsp;</td> </tr> </tbody> </table>";
+	    }
+    }
 }
