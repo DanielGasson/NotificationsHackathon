@@ -72,11 +72,11 @@ namespace Notifications.PdfProcessor
 	    public static string SaveDocumentRecord(CustomerRecord customer, string documentType, string fileName)
 	    {
 	        CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
-	            ConfigurationManager.AppSettings["StorageConnectionString"]);
+	            ConfigurationManager.AppSettings["Microsoft.Storage.ConnectionString"]);
 
 	        CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-
-	        CloudTable table = tableClient.GetTableReference("CustomerDocument");
+		    CreateTableIfNotExists(tableClient, "CustomerDocument");
+			CloudTable table = tableClient.GetTableReference("CustomerDocument");
 
 	        var rowKey = Guid.NewGuid();
 	        var customerDoc = new CustomerDocument(customer.Id, rowKey);
@@ -90,7 +90,13 @@ namespace Notifications.PdfProcessor
             return rowKey.ToString();
 	    }
 
-        private static bool QueueEmailGeneration(CustomerRecord customer, string uniqueKey)
+		private static void CreateTableIfNotExists(CloudTableClient client, string tableName)
+		{
+			var table = client.GetTableReference(tableName);
+			table.CreateIfNotExists();
+		}
+
+		private static bool QueueEmailGeneration(CustomerRecord customer, string uniqueKey)
 		{
 		    try
 		    {
@@ -128,7 +134,7 @@ namespace Notifications.PdfProcessor
 
 	        var fileName = $"{year}{month}-{customerId}-{fileType}.pdf";
 
-            var connectionString = ConfigurationManager.AppSettings["StorageConnectionString"];
+            var connectionString = ConfigurationManager.AppSettings["Microsoft.Storage.ConnectionString"];
 	        CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
 	        CloudFileClient fileClient = account.CreateCloudFileClient();
 	        CloudFileShare pdfLocation = fileClient.GetShareReference("pdfstorage");
