@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Notifications.SmsSender
+namespace Notifications.Web.Models
 {
 	public class CustomerDb
 	{
@@ -20,28 +20,28 @@ namespace Notifications.SmsSender
 						},
 						new CustomerRecord
 						{
-							Id = 1,
+							Id = 2,
 							FirstName = "Daniel",
 							LastName = "Gasson",
 							PhoneNumber = "00447949863879"
 						},
 						new CustomerRecord
 						{
-							Id = 1,
+							Id = 3,
 							FirstName = "Jamie",
 							LastName = "Howard",
 							PhoneNumber = "00447507484850"
 						},
 						new CustomerRecord
 						{
-							Id = 1,
+							Id = 4,
 							FirstName = "Morgan",
 							LastName = "Faget",
 							PhoneNumber = "00447949863879"
 						},
 						new CustomerRecord
 						{
-							Id = 1,
+							Id = 5,
 							FirstName = "Katerina",
 							LastName = "Gerykova",
 							PhoneNumber = "00447507484850"
