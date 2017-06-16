@@ -13,23 +13,13 @@ namespace Notifications.MessageGenerator
         {
             Console.WriteLine("Press Enter");
             Console.ReadLine();
-            var countMs = 0;
-            while (countMs < 3)
-            {
-                var randomIndex = RandomListGenerator.Next(CustomerDataBaseStub.Count);
-                GenerateMonthlyStatementMessage(CustomerDataBaseStub[randomIndex]);
-                countMs++;
-            }
 
-            //var countPlus3 = 0;
-            //while (countPlus3 < 2)
-            //{
-            //    var randomIndex = RandomListGenerator.Next(CustomerDataBaseStub.Count);
-            //    GeneratePaymentDueIn3DaysMessage(CustomerDataBaseStub[randomIndex]);
-            //    countPlus3++;
-            //}
-
-        }
+			GenerateMonthlyStatementMessage(CustomerDataBaseStub[0]);
+			GenerateMonthlyStatementMessage(CustomerDataBaseStub[1]);
+			GenerateMonthlyStatementMessage(CustomerDataBaseStub[2]);
+			GeneratePaymentDueIn3DaysMessage(CustomerDataBaseStub[3]);
+			GeneratePaymentDueIn3DaysMessage(CustomerDataBaseStub[4]);
+		}
 
         private static void GenerateMonthlyStatementMessage(CustomerRecord customer)
         {

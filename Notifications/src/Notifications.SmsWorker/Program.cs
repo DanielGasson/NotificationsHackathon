@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using Microsoft.ServiceBus.Messaging;
 using RestSharp;
 
@@ -27,7 +28,7 @@ namespace Notifications.SmsWorker
 			client.OnMessage(message =>
 			{
 				var customerId = message.Properties["customerId"];
-				var phoneNumber = CustomerDb.Customers.First(c => c.Id == (int) customerId);
+				var phoneNumber = CustomerDb.Customers.First(c => c.Id == (int) customerId).PhoneNumber;
 				SendSms(phoneNumber.ToString(), "You have a new secure message. Log into your account to view it.");
 			}, messageOptions);
 		}
@@ -45,6 +46,10 @@ namespace Notifications.SmsWorker
 
 				var client = new RestClient("https://api.txtlocal.com");
 				var response = client.Execute(request);
+				if (response.StatusCode != HttpStatusCode.OK)
+				{
+					throw new Exception($"Could not send message to {number}");
+				}
 			}
 			catch (Exception ex)
 			{
