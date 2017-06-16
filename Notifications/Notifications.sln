@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.DayPlus3Proce
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.InboxMessageWorker", "src\Notifications.InboxMessageWorker\Notifications.InboxMessageWorker.csproj", "{2B94112C-8FA8-46FF-ACF2-0B35838AF505}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.SmsWorker", "src\Notifications.SmsWorker\Notifications.SmsWorker.csproj", "{702A9393-35CB-46EC-8FD0-DF0B16340ED0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,8 @@ Global
 		{2B94112C-8FA8-46FF-ACF2-0B35838AF505}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B94112C-8FA8-46FF-ACF2-0B35838AF505}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B94112C-8FA8-46FF-ACF2-0B35838AF505}.Release|Any CPU.Build.0 = Release|Any CPU
+		{702A9393-35CB-46EC-8FD0-DF0B16340ED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{702A9393-35CB-46EC-8FD0-DF0B16340ED0}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
