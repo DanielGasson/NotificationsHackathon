@@ -10,7 +10,6 @@ using Microsoft.WindowsAzure.Storage.File;
 using Microsoft.WindowsAzure.Storage.Table;
 using Notifications.PdfProcessor.TableEntities;
 using PdfSharp;
-using SelectPdf;
 using TheArtOfDev.HtmlRenderer.PdfSharp;
 
 namespace Notifications.PdfProcessor
