@@ -9,7 +9,9 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.File;
 using Microsoft.WindowsAzure.Storage.Table;
 using Notifications.PdfProcessor.TableEntities;
+using PdfSharp;
 using SelectPdf;
+using TheArtOfDev.HtmlRenderer.PdfSharp;
 
 namespace Notifications.PdfProcessor
 {
@@ -113,14 +115,9 @@ namespace Notifications.PdfProcessor
 
 	    private static MemoryStream GeneratePdfStream(string content)
 	    {
-	        var stream = new MemoryStream();
-	        // Either manually copy the dep (generator) file into your build folder or specify it this way.
-	        GlobalProperties.HtmlEngineFullPath = PdfEnginePath;
-	        var converter = new HtmlToPdf();
-	        var htmlToConvert = content;
-	        PdfDocument signUpEmailDocument = converter.ConvertHtmlString(htmlToConvert);
-	        signUpEmailDocument.Save(stream);
-	        signUpEmailDocument.Close();
+            var stream = new MemoryStream();
+	        var pdf = PdfGenerator.GeneratePdf(content, PageSize.A4);
+            pdf.Save(stream, false);
 	        return stream;
 	    }
 
@@ -205,8 +202,9 @@ namespace Notifications.PdfProcessor
 	    public static string GenerateHtmlForPdf(string firstname, string lastname)
 	    {
 	        return
-	            $"<table> <tbody> <tr> <td>&nbsp;</td> </tr> <tr> <td>&nbsp;</td> </tr> <tr> <td> <div style=\"0color: #000000; font-size: 14px; text-align: left; font-family: Tahoma;\"><span style=\"color: #ff0000;\">DEAR {firstname} {lastname} - THIS IS YOUR VERY DETAILED MONTHLY STATEMENT</span></div> <div style=\"0color: #000000; font-size: 14px; text-align: left; font-family: Tahoma;\">&nbsp;</div> <div style=\"0color: #000000; font-size: 14px; text-align: left; font-family: Tahoma;\">SUMMARY</div> <div style=\"0color: #000000; font-size: 14px; text-align: left; font-family: Tahoma;\">&nbsp;</div> <div style=\"0color: #000000; font-size: 14px; text-align: left; font-family: Tahoma;\">YOU\'RE BROKE!!!</div> </td> </tr> <tr> <td>&nbsp;</td> </tr> </tbody> </table>";
-	    }
+	            $"<!DOCTYPE html> <html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\"> <head> <meta charset=\"utf-8\" /> <title></title> </head> <body> <table> <tbody> <tr> <td>&nbsp;</td> </tr> <tr> <td>&nbsp;</td> </tr> <tr> <td> <div>DEAR {firstname} {lastname} - THIS IS YOUR VERY DETAILED MONTHLY STATEMENT</div> <div>&nbsp;</div> <div>SUMMARY</div> <div>&nbsp;</div> <div>YOU\\\'RE BROKE!!!</div> </td> </tr> <tr> <td>&nbsp;</td> </tr> </tbody> </table> </body> </html>";
+
+        }
 
 
 

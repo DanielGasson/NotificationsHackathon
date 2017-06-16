@@ -21,13 +21,13 @@ namespace Notifications.MessageGenerator
                 countMs++;
             }
 
-            var countPlus3 = 0;
-            while (countPlus3 < 2)
-            {
-                var randomIndex = RandomListGenerator.Next(CustomerDataBaseStub.Count);
-                GeneratePaymentDueIn3DaysMessage(CustomerDataBaseStub[randomIndex]);
-                countPlus3++;
-            }
+            //var countPlus3 = 0;
+            //while (countPlus3 < 2)
+            //{
+            //    var randomIndex = RandomListGenerator.Next(CustomerDataBaseStub.Count);
+            //    GeneratePaymentDueIn3DaysMessage(CustomerDataBaseStub[randomIndex]);
+            //    countPlus3++;
+            //}
 
         }
 

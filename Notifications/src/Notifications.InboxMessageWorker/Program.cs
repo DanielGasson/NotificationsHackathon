@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Net;
 using Microsoft.Azure;
 using Microsoft.ServiceBus.Messaging;
@@ -22,7 +21,7 @@ namespace Notifications.InboxMessageWorker
                 CreateTableIfExists(storageClient, TableName);
 
                 // queue client setup
-                var queueConnectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
+                var queueConnectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
 				var queueName = "emailgeneratorqueue";
 				var queueClient = QueueClient.CreateFromConnectionString(queueConnectionString, queueName);
 
@@ -74,8 +73,8 @@ namespace Notifications.InboxMessageWorker
 
 		private static void QueueMsgForTextMessage(object customerId, object firstName, object lastName)
 		{
-			var connectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
-			var pdfQueueName = "smssenderqueue";
+			var connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
+            var pdfQueueName = "smssenderqueue";
 			var client = QueueClient.CreateFromConnectionString(connectionString, pdfQueueName);
 
 			var message = new BrokeredMessage();
