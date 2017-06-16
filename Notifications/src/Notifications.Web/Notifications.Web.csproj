@@ -149,12 +149,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CustomerDb.cs" />
+    <Compile Include="Models\CustomerDocument.cs" />
     <Compile Include="Models\CustomerEmail.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="ViewModels\CustomerMessageViewModel.cs" />

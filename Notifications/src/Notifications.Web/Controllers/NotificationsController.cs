@@ -10,15 +10,14 @@ using Notifications.Web.ViewModels;
 
 namespace Notifications.Web.Controllers
 {
-	public class NotificationsController : Controller
+	public class NotificationsController : BaseController
 	{
 		private const string TableName = "CustomerEmails";
 
 		[HttpGet]
 		public ActionResult Index()
 		{
-			// just hard code a customer in here since we don't have any auth at the moment
-			var messages = GetAllMessagesForCustomer(2);
+			var messages = GetAllMessagesForCustomer(GetUserId());
 			var model = new InboxViewModel { Messages = messages };
 			return View(model);
 		}
