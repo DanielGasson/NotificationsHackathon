@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.ServiceBus.Messaging;
 using RestSharp;
 
-namespace Notifications.SmsSender
+namespace Notifications.SmsWorker
 {
 	class Program
 	{

@@ -6,12 +6,13 @@ using Microsoft.ServiceBus.Messaging;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
-namespace Notifications.EmailProcessor
+namespace Notifications.InboxMessageWorker
 {
 	class Program
 	{
 		private const string TableName = "CustomerEmails";
-		private const string EmailContent = "Hi, your monthly statement is ready.";
+		private const string MessageTitle = "Monthly Statement";
+		private const string MessageContent = "Hi, your monthly statement is ready.";
 
 		static void Main(string[] args)
 		{
@@ -57,7 +58,8 @@ namespace Notifications.EmailProcessor
 					var customerEmail = new CustomerEmail
 					(
 						customerId: (int) customerId,
-						content: EmailContent
+						title: MessageTitle,
+						content: MessageContent
 					);
 
 					var success = AddEntityToStorage(storageClient, customerEmail, TableName);
