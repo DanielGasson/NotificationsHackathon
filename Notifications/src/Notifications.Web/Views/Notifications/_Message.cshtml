@@ -7,7 +7,8 @@
 <div id="messageContainer">
 	
 	<h2>@Model.Title</h2>
-	<p>@Model.Body</p>
+	@*<p>@Model.Body</p>*@
+	<p>@Html.Raw(Model.Body)</p>
 
 	<button>@Html.ActionLink("Dismiss Message", "", "", new {@href = "/Notifications/Index"})</button>
 	<hr/>
