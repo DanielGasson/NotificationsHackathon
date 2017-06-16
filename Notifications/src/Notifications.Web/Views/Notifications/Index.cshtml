@@ -1,7 +1,36 @@
-﻿
+﻿@model Notifications.Web.ViewModels.InboxViewModel
 @{
-    ViewBag.Title = "Inbox";
+	ViewBag.Title = "Inbox";
 }
 
-<h2>Inbox</h2>
+<h2>Messages</h2>
 
+<html lang="en">
+<head>
+	<title>Bootstrap Example</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="container">
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>Subject</th>
+		</tr>
+		</thead>
+		<tbody>
+		@foreach (var message in Model.Messages)
+		{
+			<tr>
+				<td id="@message.RowKey">@message.Title</td>
+			</tr>
+		}
+		</tbody>
+	</table>
+</div>
+</body>
+</html>
+
+@Scripts.Render("~/bundles/jquery")
+<script src="~\Scripts/notifications/notifications.js"></script>
