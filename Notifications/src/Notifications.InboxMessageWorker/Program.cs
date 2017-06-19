@@ -15,10 +15,13 @@ namespace Notifications.InboxMessageWorker
 		{
 			try
 			{
-                Console.WriteLine("Starting Inbox worker");
-                //// storage client setup
-                
-                var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+				Console.Title = "Inbox Worker";
+				Console.ForegroundColor = ConsoleColor.Green;
+				Console.SetWindowSize(Console.WindowWidth / 2, Console.WindowHeight / 2);
+				Console.WriteLine("Inbox Worker started. Awaiting message...");
+
+				// storage client setup
+				var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
                 var storageClient = storageAccount.CreateCloudTableClient();
                 CreateTableIfExists(storageClient, TableName);
 

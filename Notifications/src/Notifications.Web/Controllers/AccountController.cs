@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using Notifications.Web.Models;
@@ -11,7 +9,6 @@ namespace Notifications.Web.Controllers
     {
         public ViewResult Login()
         {
-
             return View();
         }
 
@@ -19,7 +16,6 @@ namespace Notifications.Web.Controllers
         [ActionName("Login")]
         public ActionResult PostLogin(LoginModel loginModel)
         {
-
             if (ModelState.IsValid)
             {
                 var customer = CustomerDb.Customers.First(x => x.FirstName == loginModel.Name);
@@ -30,9 +26,7 @@ namespace Notifications.Web.Controllers
 
                 FormsAuthentication.SetAuthCookie(customer.FirstName, true);
 
-                GetUserId();
-
-                return RedirectToAction("index", "home");
+                return RedirectToAction("Index", "Notifications");
             }
 
             return View(loginModel);
@@ -42,9 +36,8 @@ namespace Notifications.Web.Controllers
         [ActionName("SignOut")]
         public ActionResult PostSignOut()
         {
-
             FormsAuthentication.SignOut();
             return RedirectToAction("index", "home");
-        }        
+        }
     }
 }

@@ -11,8 +11,12 @@ namespace Notifications.SmsWorker
 	{
 		static void Main(string[] args)
 		{
-		    Console.WriteLine("Started Sms Worker");
-            var connectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
+			Console.Title = "SMS Worker";
+			Console.ForegroundColor = ConsoleColor.Green;
+			Console.SetWindowSize(Console.WindowWidth / 2, Console.WindowHeight / 2);
+			Console.WriteLine("SMS Worker started. Awaiting message...");
+
+			var connectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 			var pdfQueueName = "smssenderqueue";
 			var client = QueueClient.CreateFromConnectionString(connectionString, pdfQueueName);
 

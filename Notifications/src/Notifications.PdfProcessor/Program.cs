@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using Microsoft.ServiceBus.Messaging;
@@ -20,9 +19,12 @@ namespace Notifications.PdfProcessor
 
 		static void Main(string[] args)
 		{
-            Console.WriteLine("Just Started PDF Processor");
+			Console.Title = "PDF Worker";
+			Console.ForegroundColor = ConsoleColor.Green;
+			Console.SetWindowSize(Console.WindowWidth / 2, Console.WindowHeight / 2);
+			Console.WriteLine("PDF Worker started. Awaiting message...");
 
-            try
+			try
 			{
 				var connectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 				var pdfQueueName = "pdfqueue";

@@ -10,8 +10,12 @@ namespace Notifications.DayPlus3Processor
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Just started Day Minus 3 Processor");
-            var connectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
+			Console.Title = "Direct Debit Message Worker(DDMW)";
+			Console.ForegroundColor = ConsoleColor.Green;
+			Console.SetWindowSize(Console.WindowWidth / 2, Console.WindowHeight / 2);
+			Console.WriteLine("DDMW Worker started. Awaiting message...");
+
+			var connectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
             var pdfQueueName = "dayplus3queue";
             var client = QueueClient.CreateFromConnectionString(connectionString, pdfQueueName);
 
