@@ -5,17 +5,15 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.Web", "src\Notifications.Web\Notifications.Web.csproj", "{72D90530-0A34-420B-8651-6BB5E1A4546F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.PdfProcessor", "src\Notifications.PdfProcessor\Notifications.PdfProcessor.csproj", "{558DDC10-4C32-4455-BCE3-CA548A7E57EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.PdfWorker", "src\Notifications.PdfWorker\Notifications.PdfWorker.csproj", "{558DDC10-4C32-4455-BCE3-CA548A7E57EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.MessageGenerator", "src\Notifications.MessageGenerator\Notifications.MessageGenerator.csproj", "{81A5D8EE-4B32-4289-98C1-F271283AF34A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.DayPlus3Processor", "src\Notifications.DayPlus3Processor\Notifications.DayPlus3Processor.csproj", "{8D70591C-76BB-434E-85FC-6552FFE3DD9C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.InboxMessageWorker", "src\Notifications.InboxMessageWorker\Notifications.InboxMessageWorker.csproj", "{2B94112C-8FA8-46FF-ACF2-0B35838AF505}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.InboxNotificationsWorker", "src\Notifications.InboxNotificationsWorker\Notifications.InboxNotificationsWorker.csproj", "{2B94112C-8FA8-46FF-ACF2-0B35838AF505}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.SmsWorker", "src\Notifications.SmsWorker\Notifications.SmsWorker.csproj", "{702A9393-35CB-46EC-8FD0-DF0B16340ED0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.MessageGenerator.App", "src\Notifications.MessageGenerator.App\Notifications.MessageGenerator.App.csproj", "{25BC6B9E-D2F7-4D9E-9172-763AB57AEC4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "src\Common\Common.csproj", "{EE6C5847-58CF-429C-A15F-9714372494E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,14 +29,6 @@ Global
 		{558DDC10-4C32-4455-BCE3-CA548A7E57EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{558DDC10-4C32-4455-BCE3-CA548A7E57EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{558DDC10-4C32-4455-BCE3-CA548A7E57EE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{81A5D8EE-4B32-4289-98C1-F271283AF34A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{81A5D8EE-4B32-4289-98C1-F271283AF34A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{81A5D8EE-4B32-4289-98C1-F271283AF34A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{81A5D8EE-4B32-4289-98C1-F271283AF34A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8D70591C-76BB-434E-85FC-6552FFE3DD9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D70591C-76BB-434E-85FC-6552FFE3DD9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D70591C-76BB-434E-85FC-6552FFE3DD9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D70591C-76BB-434E-85FC-6552FFE3DD9C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2B94112C-8FA8-46FF-ACF2-0B35838AF505}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B94112C-8FA8-46FF-ACF2-0B35838AF505}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B94112C-8FA8-46FF-ACF2-0B35838AF505}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -49,6 +39,10 @@ Global
 		{25BC6B9E-D2F7-4D9E-9172-763AB57AEC4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25BC6B9E-D2F7-4D9E-9172-763AB57AEC4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25BC6B9E-D2F7-4D9E-9172-763AB57AEC4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE6C5847-58CF-429C-A15F-9714372494E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE6C5847-58CF-429C-A15F-9714372494E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE6C5847-58CF-429C-A15F-9714372494E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE6C5847-58CF-429C-A15F-9714372494E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

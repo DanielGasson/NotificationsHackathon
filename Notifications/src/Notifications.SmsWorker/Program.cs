@@ -1,29 +1,28 @@
 ﻿using System;
-using System.Configuration;
 using System.Linq;
-using System.Net;
+using Common.DataAccess;
+using Common.Queueing;
 using Microsoft.ServiceBus.Messaging;
-using RestSharp;
 
 namespace Notifications.SmsWorker
 {
-	class Program
+	internal class Program
 	{
-		static void Main(string[] args)
+		private const string SmsContent = "You have a new secure message. Log into your account to view it.";
+
+		private static void Main()
 		{
-			Console.Title = "SMS Worker";
-			Console.ForegroundColor = ConsoleColor.Green;
-			Console.SetWindowSize(Console.WindowWidth / 2, Console.WindowHeight / 2);
+			SetConsoleDisplaySetting();
 			Console.WriteLine("SMS Worker started. Awaiting message...");
 
-			var connectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
-			var pdfQueueName = "smssenderqueue";
-			var client = QueueClient.CreateFromConnectionString(connectionString, pdfQueueName);
+			var smsSender = new SmsSender();
+			var queueService = new AzureQueueService();
 
+			var client = queueService.GetQueueClient(QueueName.Sms);
 			var messageOptions = new OnMessageOptions
 			{
 				AutoComplete = true,
-				MaxConcurrentCalls = 2
+				MaxConcurrentCalls = 2,
 			};
 			messageOptions.ExceptionReceived += (sender, eventArgs) =>
 			{
@@ -32,37 +31,18 @@ namespace Notifications.SmsWorker
 
 			client.OnMessage(message =>
 			{
-				var customerId = message.Properties["customerId"];
-				var customerRecord = CustomerDb.Customers.First(c => c.Id == (int) customerId);
-				SendSms(customerRecord.PhoneNumber, "You have a new secure message. Log into your account to view it.");
-			    Console.WriteLine("Sent text to Customer {0} - {1}", customerId, customerRecord.FirstName);
-
-            }, messageOptions);
-		    Console.ReadLine();
+				var customer = MockDatabase.Customers.First(c => c.Id == message.GetCustomerId());
+				smsSender.SendSms(customer.PhoneNumber, SmsContent);
+				Console.WriteLine($"Sent sms to customer {customer.FirstName} - Id: {customer.Id}");
+			}, messageOptions);
+			Console.ReadLine();
 		}
 
-		private static void SendSms(string number, string content)
+		private static void SetConsoleDisplaySetting()
 		{
-			try
-			{
-				var apiKey = ConfigurationManager.AppSettings["TextLocalApiKey"];
-				var request = new RestRequest("send", Method.POST);
-				request.AddParameter("sender", "Dan and Sunit");
-				request.AddParameter("message", content);
-				request.AddParameter("apiKey", apiKey);
-				request.AddParameter("numbers", number);
-
-				var client = new RestClient("https://api.txtlocal.com");
-				var response = client.Execute(request);
-				if (response.StatusCode != HttpStatusCode.OK)
-				{
-					throw new Exception($"Could not send message to {number}");
-				}
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Failed to send text message. Details: {ex.Message}");
-			}
+			Console.Title = "SMS Worker";
+			Console.ForegroundColor = ConsoleColor.Green;
+			Console.SetWindowSize(Console.WindowWidth / 2, Console.WindowHeight / 2);
 		}
 	}
 }
